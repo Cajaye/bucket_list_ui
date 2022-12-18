@@ -4,9 +4,10 @@ import Auth from "./Auth"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { motion } from "framer-motion"
 import CreateBucket from "./CreateBucket";
-import BucketDetails from "./BucketDetaisl";
+import BucketDetails from "./BucketDetails";
 
 function App() {
+
   return (
     <Router>
       <motion.div className="App" initial={{ opacity: 0 }}
@@ -14,17 +15,17 @@ function App() {
         transition={{ duration: 1.5 }}>
         <Header />
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
           <Route path="/authorize">
             <Auth />
           </Route>
-          <Route path="/create">
-            <CreateBucket />
+          <Route exact path="/">
+            <Home />
           </Route>
           <Route path="/bucket/:id">
             <BucketDetails />
+          </Route>
+          <Route path="/create">
+            <CreateBucket />
           </Route>
         </Switch>
       </motion.div>

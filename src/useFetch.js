@@ -8,10 +8,13 @@ const useFetch = (url) => {
         isPending: true
     })
 
+
     useEffect(() => {
+        const abortController = new AbortController();
+
         const fetchData = async () => {
             try {
-                const res = await fetchWithInterceptor(url, { credentials: 'include' })
+                const res = await fetchWithInterceptor(url, { credentials: 'include', signal: abortController.signal })
 
                 const resData = await res.json()
 
@@ -19,29 +22,28 @@ const useFetch = (url) => {
                     throw new Error(`${resData.message}!`)
                 }
 
-                if (active) {
-                    setFetchObj({
-                        data: resData,
-                        error: null,
-                        isPending: false
-                    })
-                }
+                setFetchObj({
+                    data: resData,
+                    error: null,
+                    isPending: false
+                })
 
             } catch (error) {
+                if (error.name === 'AbortError') {
+                    return
+                }
                 setFetchObj({
                     data: null,
                     error: error.message,
                     isPending: false
                 })
+
             }
-
         }
-
-        let active = true
 
         fetchData()
 
-        return () => active = false
+        return () => abortController.abort();
 
     }, [url])
 

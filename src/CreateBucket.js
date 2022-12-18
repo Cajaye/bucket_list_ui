@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import Button from "./Button";
+import Create from "./Create";
 
 const CreateBucket = () => {
     const baseUrl = "http://localhost:8000/api/v1/user/bucket"
@@ -38,13 +38,13 @@ const CreateBucket = () => {
     }
 
     return (
-        <main className="create">
-            <form onSubmit={handleSubmit}>
-                <label>Enter the title of your bucket</label>
-                <input type="text" placeholder="example: Places to eat" value={title} onChange={(e) => setTitle(e.target.value)} />
-                <Button buttonName={"Enter"} />
-            </form>
-        </main>
+        <Create placeholder={"example: Places to eat"} prompt={"Enter the title of your bucket"} handleSubmit={handleSubmit} value={title} setValue={setTitle} styles={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "60%"
+        }} />
     );
 }
 

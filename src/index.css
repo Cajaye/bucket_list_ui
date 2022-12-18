@@ -194,14 +194,6 @@ button {
   margin: 20px;
 }
 
-.create form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60%;
-}
-
 .create form label {
   margin-bottom: 10px;
 }
@@ -219,6 +211,7 @@ button {
   justify-content: center;
   gap: 0.5em;
   user-select: none;
+  margin: 20px;
 }
 
 .checkbox + .checkbox {
