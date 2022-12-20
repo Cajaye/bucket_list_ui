@@ -1,13 +1,17 @@
 import { useEffect, useCallback } from "react";
 import fetchWithInterceptor from "./interceptor";
-import useFetch from "./useFetch"
 import Bucket from "./Bucket";
 import { useHistory } from "react-router-dom";
 import Button from "./Button";
+import useFetch from "./useFetch";
+
+
+//popup to comfirm delete
 
 const Home = () => {
     const history = useHistory()
-    const { data: buckets, error, isPending } = useFetch("http://localhost:8000/api/v1/user/bucket")
+    const [fetchObj, setFetchObj] = useFetch(`http://localhost:8000/api/v1/user/bucket?sort=-createdAt`)
+
 
     const deleteBucket = useCallback(async (id) => {
         try {
@@ -25,11 +29,16 @@ const Home = () => {
                 throw new Error(message)
             }
 
+            setFetchObj({
+                data: fetchObj.data.filter((bucket) => bucket._id !== id),
+                error: null,
+                isPending: false
+            })
 
         } catch (error) {
             console.log(error);
         }
-    }, [])
+    }, [setFetchObj, fetchObj])
 
     useEffect(() => {
         const login = localStorage.getItem("token")
@@ -49,9 +58,9 @@ const Home = () => {
                 <p>Curated list of things we want to do:</p>
             </div>
             <div className="buckets">
-                {isPending && <div>Loading...</div>}
-                {error && <div style={{ color: "red" }}>{error}</div>}
-                {buckets && buckets.map((bucket) =>
+                {fetchObj.isPending && <div>Loading...</div>}
+                {fetchObj.error && <div style={{ color: "red" }}>{fetchObj.error}</div>}
+                {fetchObj.data && fetchObj.data.map((bucket) =>
                     <Bucket onClick={() => deleteBucket(bucket._id)} id={bucket._id} key={bucket._id} title={bucket.title} createdAt={bucket.createdAt} />)
                 }
             </div>

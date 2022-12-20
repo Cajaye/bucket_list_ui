@@ -1,19 +1,16 @@
 //use params
 import { useParams, useHistory } from "react-router-dom";
-import { useEffect, useState, useCallback, useContext } from "react";
+import { useEffect, useState, useCallback } from "react";
 import fetchWithInterceptor from "./interceptor";
 import Create from "./Create";
-//add and delete btns
+import useFetch from "./useFetch";
+//edit functionality and logout,login
 
 const BucketDetails = () => {
     const history = useHistory()
     const { id: bucketID } = useParams();
     const [name, setName] = useState("")
-    const [fetchObj, setFetchObj] = useState({
-        data: null,
-        error: null,
-        isPending: true
-    })
+    const [fetchObj, setFetchObj] = useFetch(`http://localhost:8000/api/v1/user/list?bucketID=${bucketID}&sort=-createdAt`)
 
     const handleCheck = useCallback(async (event, id) => {
         let checked = event.target.checked;
@@ -79,7 +76,7 @@ const BucketDetails = () => {
                 isPending: false
             })
         }
-    }, [bucketID, fetchObj.data, name])
+    }, [bucketID, fetchObj.data, name, setFetchObj])
 
 
     useEffect(() => {
@@ -89,43 +86,7 @@ const BucketDetails = () => {
             history.push("/authorize")
             return
         }
-
-        const abortController = new AbortController();
-
-        const fetchData = async () => {
-            try {
-                const res = await fetchWithInterceptor(`http://localhost:8000/api/v1/user/list?bucketID=${bucketID}&sort=-createdAt`, { credentials: 'include', signal: abortController.signal })
-
-                const resData = await res.json()
-
-                if (!res.ok) {
-                    throw new Error(`${resData.message}!`)
-                }
-
-                setFetchObj({
-                    data: resData,
-                    error: null,
-                    isPending: false
-                })
-
-            } catch (error) {
-                if (error.name === 'AbortError') {
-                    return
-                }
-                setFetchObj({
-                    data: null,
-                    error: error.message,
-                    isPending: false
-                })
-
-            }
-        }
-
-        fetchData()
-
-        return () => abortController.abort();
-
-    }, [history, bucketID])
+    }, [history])
 
     return (
         <div style={{ margin: "40px" }} className="bucket-details">
