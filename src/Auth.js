@@ -9,7 +9,7 @@ const Auth = () => {
     const baseUrl = "http://localhost:8000/api/v1/auth"
     const [url, setUrl] = useState(`${baseUrl}/login`)
 
-    const { handleSubmit } = useAuth({ username, password }, url)
+    const { handleSubmit, error } = useAuth({ username, password }, url)
 
     return (
         <main className="register">
@@ -19,6 +19,8 @@ const Auth = () => {
                 <motion.input whileFocus={{ scale: 1.1 }} type="text" placeholder="example:Johnny-Boy" required value={username} onChange={(e) => setUsername(e.target.value)} />
                 <label>Password</label>
                 <motion.input whileFocus={{ scale: 1.1 }} type="password" placeholder="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
+                <p style={{ color: "red" }}>{error && error}</p>
+                <p onClick={() => setUrl(`${baseUrl}/register`)} style={{ color: "blue", textDecoration: "underline", fontSize: "1rem" }}>{"Don't have an account yet? Sign up"}</p>
                 <Button buttonName={"login"} />
             </form>
         </main>

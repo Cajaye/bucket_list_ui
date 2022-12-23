@@ -6,7 +6,8 @@ import Button from "./Button";
 import useFetch from "./useFetch";
 
 
-//popup to comfirm delete
+//popup to comfirm delete and logout,login
+
 
 const Home = () => {
     const history = useHistory()

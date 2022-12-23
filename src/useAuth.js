@@ -1,8 +1,8 @@
 import { useHistory } from "react-router-dom";
+import { useState } from "react";
 
 const useAuth = (userDetails, url) => {
-    //error
-    //pending
+    const [error, setError] = useState(null)
     const history = useHistory()
 
     const handleSubmit = async (e) => {
@@ -29,11 +29,11 @@ const useAuth = (userDetails, url) => {
             history.push("/")
 
         } catch (error) {
-            console.log(error.message);
+            setError(error.message)
         }
 
     }
-    return { handleSubmit }
+    return { handleSubmit, error }
 }
 
 export default useAuth

@@ -38,7 +38,7 @@ const CreateBucket = () => {
     }
 
     return (
-        <Create placeholder={"example: Places to eat"} prompt={"Enter the title of your bucket"} handleSubmit={handleSubmit} value={title} setValue={setTitle} styles={{
+        <Create placeholder={"example: Places to eat"} prompt={"Enter the title of your bucket"} handleSubmit={handleSubmit} value={title} setValue={setTitle} cssStyles={{
             position: "absolute",
             top: "50%",
             left: "50%",
