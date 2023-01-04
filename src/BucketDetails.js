@@ -1,7 +1,6 @@
 //use params
 import { useParams, useHistory } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
-import { motion } from "framer-motion";
 import fetchWithInterceptor from "./interceptor";
 import Create from "./Create";
 import useFetch from "./useFetch";
@@ -20,7 +19,6 @@ const BucketDetails = () => {
     const { id: bucketID } = useParams();
     const [name, setName] = useState("")
     const [fetchObj, setFetchObj] = useFetch(`http://localhost:8000/api/v1/user/list?bucketID=${bucketID}&sort=-createdAt`)
-
 
     const handleCheck = async (event, id) => {
         let checked = event.target.checked;
@@ -107,6 +105,12 @@ const BucketDetails = () => {
                 throw new Error(message)
             }
 
+            setFetchObj({
+                data: fetchObj.data.filter((item) => item._id !== id),
+                error: null,
+                isPending: false
+            })
+
 
         } catch (error) {
             console.log(error);
@@ -137,7 +141,6 @@ const BucketDetails = () => {
         }
     }
 
-
     useEffect(() => {
         const login = localStorage.getItem("token")
 
@@ -148,12 +151,10 @@ const BucketDetails = () => {
 
         const timeoutId = setTimeout(() => {
             setConfetti(false);
-        }, 5000);
+        }, 6000);
 
         return () => {
-            if (confetti) {
-                clearTimeout(timeoutId);
-            }
+            clearTimeout(timeoutId);
         };
 
     }, [history, confetti])
@@ -161,14 +162,21 @@ const BucketDetails = () => {
     return (
         <div style={{ margin: "40px" }} className="bucket-details">
             {confetti && <Confetti width={width} height={height} />}
+            <div>
+                <Create prompt={"Add an item"} handleSubmit={createListItem} value={name} setValue={setName} styles={{ width: "60%" }} />
+                {fetchObj.data && fetchObj.data.map((list) => {
+                    return (
+                        <div style={{ display: "flex", alignItems: "center" }}>
+                            <button>delete</button>
+                            <label key={list._id} className="checkbox">
+                                <input type="checkbox" name="checkbox" defaultChecked={list.status} onChange={e => handleCheck(e, list._id)} />
+                                <input disabled style={{ border: "none", cursor: "pointer" }} type="text" defaultValue={list.name} />
+                            </label>
+                        </div>
+                    )
 
-            <Create prompt={"Add an item"} handleSubmit={createListItem} value={name} setValue={setName} styles={{ width: "60%" }} />
-            {fetchObj.data && fetchObj.data.map((list) => {
-                return <label key={list._id} className="checkbox">
-                    <input type="checkbox" name="checkbox" defaultChecked={list.status} onChange={e => handleCheck(e, list._id)} />
-                    <input style={{ border: "none" }} type="text" defaultValue={list.name} />
-                </label>
-            })}
+                })}
+            </div>
             {fetchObj.isPending && <div>Loading...</div>}
             {fetchObj.error && <div>{fetchObj.error}</div>}
         </div>

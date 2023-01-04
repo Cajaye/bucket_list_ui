@@ -112,6 +112,7 @@ p {
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
   flex-basis: 520px;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .buckets {
