@@ -167,10 +167,10 @@ const BucketDetails = () => {
                 {fetchObj.data && fetchObj.data.map((list) => {
                     return (
                         <div style={{ display: "flex", alignItems: "center" }}>
-                            <button>delete</button>
+                            <button onClick={() => deleteListItem(list._id)}>Delete</button>
                             <label key={list._id} className="checkbox">
                                 <input type="checkbox" name="checkbox" defaultChecked={list.status} onChange={e => handleCheck(e, list._id)} />
-                                <input disabled style={{ border: "none", cursor: "pointer" }} type="text" defaultValue={list.name} />
+                                <input style={{ border: "none", cursor: "pointer", width: "100%" }} type="text" defaultValue={list.name} />
                             </label>
                         </div>
                     )

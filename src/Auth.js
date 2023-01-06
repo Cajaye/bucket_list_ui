@@ -11,16 +11,24 @@ const Auth = () => {
 
     const { handleSubmit, error } = useAuth({ username, password }, url)
 
+    function toggleUrl() {
+        if (url === `${baseUrl}/register`) {
+            setUrl(`${baseUrl}/login`)
+        } else {
+            setUrl(`${baseUrl}/register`)
+        }
+    }
+
     return (
         <main className="register">
             <form onSubmit={handleSubmit}>
-                <h2 style={{ marginBottom: "15px" }}>{"Login"}</h2>
+                <h2 style={{ marginBottom: "15px" }}>{url === `${baseUrl}/register` ? "Register" : "Login"}</h2>
                 <label>Username</label>
                 <motion.input whileFocus={{ scale: 1.1 }} type="text" placeholder="example:Johnny-Boy" required value={username} onChange={(e) => setUsername(e.target.value)} />
                 <label>Password</label>
                 <motion.input whileFocus={{ scale: 1.1 }} type="password" placeholder="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                 <p style={{ color: "red" }}>{error && error}</p>
-                <p onClick={() => setUrl(`${baseUrl}/register`)} style={{ color: "blue", textDecoration: "underline", fontSize: "1rem" }}>{"Don't have an account yet? Sign up"}</p>
+                <p onClick={toggleUrl} style={{ color: "blue", textDecoration: "underline", fontSize: "1rem", cursor: "pointer" }}>{url === `${baseUrl}/register` ? "Already have an account? Login" : "Don't have an account yet? Register"}</p>
                 <Button buttonName={"login"} />
             </form>
         </main>
