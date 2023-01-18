@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useCallback } from "react";
 import fetchWithInterceptor from "./interceptor";
 import Bucket from "./Bucket";
 import { useHistory } from "react-router-dom";
@@ -11,12 +11,12 @@ import useFetch from "./useFetch";
 
 const Home = () => {
     const history = useHistory()
-    const [fetchObj, setFetchObj] = useFetch(`http://localhost:8000/api/v1/user/bucket?sort=-createdAt`)
+    const [fetchObj, setFetchObj] = useFetch(`https://bucket-52ae.onrender.com/api/v1/user/bucket?sort=-createdAt`)
 
 
     const deleteBucket = useCallback(async (id) => {
         try {
-            const res = await fetchWithInterceptor(`http://localhost:8000/api/v1/user/bucket/${id}`, {
+            const res = await fetchWithInterceptor(`https://bucket-52ae.onrender.com/api/v1/user/bucket/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -41,13 +41,6 @@ const Home = () => {
         }
     }, [setFetchObj, fetchObj])
 
-    useEffect(() => {
-        const login = localStorage.getItem("token")
-
-        if (!login) {
-            history.push("/authorize")
-        }
-    }, [history])
 
     return (
         <div className="home">

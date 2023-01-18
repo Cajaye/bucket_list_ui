@@ -18,7 +18,7 @@ const BucketDetails = () => {
     const history = useHistory()
     const { id: bucketID } = useParams();
     const [name, setName] = useState("")
-    const [fetchObj, setFetchObj] = useFetch(`http://localhost:8000/api/v1/user/list?bucketID=${bucketID}&sort=-createdAt`)
+    const [fetchObj, setFetchObj] = useFetch(`https://bucket-52ae.onrender.com/api/v1/user/list?bucketID=${bucketID}&sort=-createdAt`)
 
     const handleCheck = async (event, id) => {
         let checked = event.target.checked;
@@ -27,7 +27,7 @@ const BucketDetails = () => {
         }
 
         try {
-            const res = await fetchWithInterceptor(`http://localhost:8000/api/v1/user/list/${id}`, {
+            const res = await fetchWithInterceptor(`https://bucket-52ae.onrender.com/api/v1/user/list/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ const BucketDetails = () => {
                 isPending: true
             })
 
-            const res = await fetchWithInterceptor(`http://localhost:8000/api/v1/user/list`, {
+            const res = await fetchWithInterceptor(`https://bucket-52ae.onrender.com/api/v1/user/list`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ const BucketDetails = () => {
 
     const deleteListItem = async (id) => {
         try {
-            const res = await fetchWithInterceptor(`http://localhost:8000/api/v1/user/list/${id}`, {
+            const res = await fetchWithInterceptor(`https://bucket-52ae.onrender.com/api/v1/user/list/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -120,7 +120,7 @@ const BucketDetails = () => {
 
     const editListItem = async (id) => {
         try {
-            const res = await fetchWithInterceptor(`http://localhost:8000/api/v1/user/list/${id}`, {
+            const res = await fetchWithInterceptor(`https://bucket-52ae.onrender.com/api/v1/user/list/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'

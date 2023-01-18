@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import Create from "./Create";
 
 const CreateBucket = () => {
-    const baseUrl = "http://localhost:8000/api/v1/user/bucket"
+    const baseUrl = "https://bucket-52ae.onrender.com/api/v1/user/bucket"
     const [title, setTitle] = useState("")
     const history = useHistory()
 
@@ -36,6 +36,7 @@ const CreateBucket = () => {
             console.log(error);
         }
     }
+
 
     return (
         <Create placeholder={"example: Places to eat"} prompt={"Enter the title of your bucket"} handleSubmit={handleSubmit} value={title} setValue={setTitle} cssStyles={{

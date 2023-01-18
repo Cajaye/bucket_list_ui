@@ -1,23 +1,23 @@
 import { motion } from "framer-motion"
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Button from "./Button";
 import useAuth from "./useAuth";
 
 const Auth = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const baseUrl = "http://localhost:8000/api/v1/auth"
+    const baseUrl = "https://bucket-52ae.onrender.com/api/v1/auth"
     const [url, setUrl] = useState(`${baseUrl}/login`)
 
     const { handleSubmit, error } = useAuth({ username, password }, url)
 
-    function toggleUrl() {
+    const toggleUrl = useCallback(() => {
         if (url === `${baseUrl}/register`) {
             setUrl(`${baseUrl}/login`)
         } else {
             setUrl(`${baseUrl}/register`)
         }
-    }
+    }, [url, baseUrl])
 
     return (
         <main className="register">
