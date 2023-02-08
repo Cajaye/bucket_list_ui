@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import fetchWithInterceptor from "./interceptor";
 import Create from "./Create";
 import useFetch from "./useFetch";
+import { baseUrl } from "./baseurl";
 
 import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
@@ -15,10 +16,9 @@ import Confetti from 'react-confetti'
 const BucketDetails = () => {
     const { width, height } = useWindowSize()
     const [confetti, setConfetti] = useState(false)
-    const history = useHistory()
     const { id: bucketID } = useParams();
     const [name, setName] = useState("")
-    const [fetchObj, setFetchObj] = useFetch(`https://bucket-52ae.onrender.com/api/v1/user/list?bucketID=${bucketID}&sort=-createdAt`)
+    const [fetchObj, setFetchObj] = useFetch(`${baseUrl}/user/list?bucketID=${bucketID}&sort=-createdAt`)
 
     const handleCheck = async (event, id) => {
         let checked = event.target.checked;
@@ -27,7 +27,7 @@ const BucketDetails = () => {
         }
 
         try {
-            const res = await fetchWithInterceptor(`https://bucket-52ae.onrender.com/api/v1/user/list/${id}`, {
+            const res = await fetchWithInterceptor(`${baseUrl}/user/list/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ const BucketDetails = () => {
                 isPending: true
             })
 
-            const res = await fetchWithInterceptor(`https://bucket-52ae.onrender.com/api/v1/user/list`, {
+            const res = await fetchWithInterceptor(`${baseUrl}/user/list`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ const BucketDetails = () => {
 
     const deleteListItem = async (id) => {
         try {
-            const res = await fetchWithInterceptor(`https://bucket-52ae.onrender.com/api/v1/user/list/${id}`, {
+            const res = await fetchWithInterceptor(`${baseUrl}/user/list/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -120,7 +120,7 @@ const BucketDetails = () => {
 
     const editListItem = async (id) => {
         try {
-            const res = await fetchWithInterceptor(`https://bucket-52ae.onrender.com/api/v1/user/list/${id}`, {
+            const res = await fetchWithInterceptor(`${baseUrl}/user/list/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -142,13 +142,6 @@ const BucketDetails = () => {
     }
 
     useEffect(() => {
-        const login = localStorage.getItem("token")
-
-        if (!login) {
-            history.push("/authorize")
-            return
-        }
-
         const timeoutId = setTimeout(() => {
             setConfetti(false);
         }, 6000);
@@ -157,7 +150,7 @@ const BucketDetails = () => {
             clearTimeout(timeoutId);
         };
 
-    }, [history, confetti])
+    }, [confetti])
 
     return (
         <div style={{ margin: "40px" }} className="bucket-details">

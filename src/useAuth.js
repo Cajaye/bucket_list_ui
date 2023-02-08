@@ -15,18 +15,18 @@ const useAuth = (userDetails, url) => {
                     'Content-Type': 'application/json'
                 },
                 credentials: 'include',
-                body: JSON.stringify(userDetails)
+                body: JSON.stringify({ ...userDetails })
             })
 
             const { username: user, message } = await res.json()
 
+
             if (!res.ok) {
                 throw new Error(message)
+            } else {
+                localStorage.setItem("token", user)
+                history.push("/")
             }
-
-            localStorage.setItem("token", user)
-
-            history.push("/")
 
         } catch (error) {
             setError(error.message)

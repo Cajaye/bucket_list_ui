@@ -2,22 +2,23 @@ import { motion } from "framer-motion"
 import { useState, useCallback } from "react";
 import Button from "./Button";
 import useAuth from "./useAuth";
+import { baseUrl } from "./baseurl";
 
 const Auth = () => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const baseUrl = "https://bucket-52ae.onrender.com/api/v1/auth"
-    const [url, setUrl] = useState(`${baseUrl}/login`)
+    const initialUrl = `${baseUrl}/auth`
+    const [url, setUrl] = useState(`${initialUrl}/login/`)
 
     const { handleSubmit, error } = useAuth({ username, password }, url)
 
     const toggleUrl = useCallback(() => {
-        if (url === `${baseUrl}/register`) {
-            setUrl(`${baseUrl}/login`)
+        if (url === `${initialUrl}/register/`) {
+            setUrl(`${initialUrl}/login/`)
         } else {
-            setUrl(`${baseUrl}/register`)
+            setUrl(`${initialUrl}/register/`)
         }
-    }, [url, baseUrl])
+    }, [url, initialUrl])
 
     return (
         <main className="register">
@@ -28,7 +29,7 @@ const Auth = () => {
                 <label>Password</label>
                 <motion.input whileFocus={{ scale: 1.1 }} type="password" placeholder="password" required value={password} onChange={(e) => setPassword(e.target.value)} />
                 <p style={{ color: "red" }}>{error && error}</p>
-                <p onClick={toggleUrl} style={{ color: "blue", textDecoration: "underline", fontSize: "1rem", cursor: "pointer" }}>{url === `${baseUrl}/register` ? "Already have an account? Login" : "Don't have an account yet? Register"}</p>
+                <p onClick={toggleUrl} style={{ color: "blue", textDecoration: "underline", fontSize: "1rem", cursor: "pointer" }}>{url === `${initialUrl}/register` ? "Already have an account? Login" : "Don't have an account yet? Register"}</p>
                 <Button buttonName={"login"} />
             </form>
         </main>

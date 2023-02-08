@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Create from "./Create";
+import { baseUrl } from "./baseurl";
 
 const CreateBucket = () => {
-    const baseUrl = "https://bucket-52ae.onrender.com/api/v1/user/bucket"
+    const url = `${baseUrl}/user/bucket`
     const [title, setTitle] = useState("")
     const history = useHistory()
 
@@ -14,7 +15,7 @@ const CreateBucket = () => {
         e.preventDefault()
 
         try {
-            const res = await fetch(baseUrl, {
+            const res = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

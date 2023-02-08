@@ -4,6 +4,7 @@ import Bucket from "./Bucket";
 import { useHistory } from "react-router-dom";
 import Button from "./Button";
 import useFetch from "./useFetch";
+import { baseUrl } from "./baseurl";
 
 
 //popup to comfirm delete and logout,login
@@ -11,12 +12,12 @@ import useFetch from "./useFetch";
 
 const Home = () => {
     const history = useHistory()
-    const [fetchObj, setFetchObj] = useFetch(`https://bucket-52ae.onrender.com/api/v1/user/bucket?sort=-createdAt`)
+    const [fetchObj, setFetchObj] = useFetch(`${baseUrl}/user/bucket?sort=-createdAt`)
 
 
     const deleteBucket = useCallback(async (id) => {
         try {
-            const res = await fetchWithInterceptor(`https://bucket-52ae.onrender.com/api/v1/user/bucket/${id}`, {
+            const res = await fetchWithInterceptor(`${baseUrl}/user/bucket/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
